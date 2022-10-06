@@ -1,42 +1,5 @@
 from typing import List
-
-class Graph:
-
-    def __init__(self, size: int) -> None:
-        
-        self.size = size
-        self.vertices = [i for i in range(size)]
-        self.succ = [[] for _ in range(size)]
-
-
-def example_tree() -> Graph:
-
-    g = Graph(12)
-    g.succ[0] = [1, 6, 7]
-    g.succ[1] = [2, 5]
-    g.succ[2] = [3, 4]
-    g.succ[3] = []
-    g.succ[4] = []
-    g.succ[5] = []
-    g.succ[6] = []
-    g.succ[7] = [8, 11]
-    g.succ[8] = [9, 10]
-    g.succ[9] = []
-    g.succ[10] = []
-    g.succ[11] = []
-
-    return g
-
-def draw_graph(g: Graph, file: str) -> None:
-
-    with open(f"{file}.dot", "w") as f:
-        f.write("digraph MyGraph {\n")
-
-        for i, succ in enumerate(g.succ):
-            for j in succ:
-                f.write(f"{i} -> {j}\n")
-
-        f.write("}\n")
+from graph import Graph
 
 
 WHITE = 1
