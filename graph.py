@@ -1,4 +1,4 @@
-from typing import List, Tuple, Any
+from typing import List, Tuple, Any, Iterator
 
 Weight_tuple = Tuple[int, int]    # adj, cost
 
@@ -10,17 +10,26 @@ class Graph:
         self.size = size
         self.vertices = [i for i in range(size)]
         self.desc = {i: str(i) for i in self.vertices}
+        self.desc_to_num = {val: key for key, val in self.desc.items()}
         self.succ: List[ List[Any] ] = []
 
     def add_node_description(self, desc: List[str]) -> None:
         assert len(desc) == self.size, "Invalid description item count"
         self.desc = { i: desc[i] for i in range(self.size) }
+        self.desc_to_num = {val: key for key, val in self.desc.items()}
 
+    def neighbours(self, node: str) -> Iterator[str]:
+        for nxt in self.succ[ self.desc_to_num[node] ]:
+            yield nxt
 
 class DiGraph(Graph):
-     def __init__(self, size: int) -> None:
+    def __init__(self, size: int) -> None:
         super().__init__(size)
         self.succ: List[ List[int] ] = [ [] for _ in range(size) ]
+
+    def add_edge(self, f: str, t: str) -> None:
+        self.succ[ self.desc_to_num[f] ].append( self.desc_to_num[t], cost )
+
 
 
 class WGraph(Graph):
@@ -28,6 +37,10 @@ class WGraph(Graph):
     def __init__(self, size: int) -> None:
         super().__init__(size)
         self.succ: List[ List[Weight_tuple] ] = [ [] for _ in range(size) ]
+        self.came_from: List[int] = [-1 for _ in range(self.size)]
+
+    def add_edge(self, f: str, t: str, cost: int) -> None:
+        self.succ[ self.desc_to_num[f] ].append( (self.desc_to_num[t], cost) )
 
 
 def draw_directed(g: DiGraph, file: str) -> None:
@@ -107,7 +120,7 @@ def example_directed() -> DiGraph:
 
 def example_weighted() -> WGraph:
     """
-    Weighted graph
+    Directed weighted graph
     """
     g = WGraph(12)
     g.succ[0] = [(1, 2), (6, 3), (7, 2)]
@@ -124,6 +137,3 @@ def example_weighted() -> WGraph:
     g.succ[11] = [(2, 15)]
 
     return g
-
-
-draw_graph(example_weighted(), "draw")
