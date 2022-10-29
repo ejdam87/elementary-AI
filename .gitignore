@@ -1,0 +1,15 @@
+# Ignore all
+*
+
+# Unignore .txt, .py
+!*.txt
+!*.py
+
+# Unignore markup
+!*.ad
+!*.adoc
+!*.md
+!*.MD
+
+# Unignore .gitignore and .clang-format
+!.gitignore
