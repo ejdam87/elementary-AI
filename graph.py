@@ -137,3 +137,5 @@ def example_weighted() -> WGraph:
     g.succ[11] = [(2, 15)]
 
     return g
+
+draw_graph(example_directed(), "draw")
