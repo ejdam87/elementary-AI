@@ -3,8 +3,6 @@ from typing import List, Dict
 import pandas as pd
 from collections import defaultdict
 
-CHART = pd.read_excel( "tenis.xlsx" )
-
 def get_entropy( probs: List[ float ] ) -> int:
     res = 0
     for p in probs:
@@ -47,6 +45,3 @@ def gain( data: pd.DataFrame, attr: str, goal: str ) -> int:
         res -= ( count / total ) * get_entropy( get_probs( partial_distr ) )
 
     return res
-
-
-print( gain( CHART, "Weather", "Tenis" ) )
